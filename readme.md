@@ -6,14 +6,12 @@ Easily make unique style images using exist photo!
 
 ## 🎤 What is Idolly Agent Server?
 
-The Idolly Agent Server empowers you to effortlessly create and manage your personalized AI Idols. This server transforms your creative ideas into engaging AI-driven content, enabling dynamic interactions and automated postings to build your idol's influence.
+The Idolly Agent Server create and manage your personalized AI Idols. This server enables dynamic interactions and automated postings to build your idol's influence.
 
-This repository explains the server's functionality, with a focus on how it uses technologies like LangGraph for orchestration.
 
 ## 🚧 How It Works
 
-The server operates through the following user-centered flow. The "Idol Brain" is the core orchestrator, largely powered by LangGraph workflows.
-
+The server operates through the following user-centered flow. The "Idol Brain" is the core orchestrator.
 ```
 User (You)
  ├── Request to Create Idol
@@ -39,7 +37,7 @@ Idolly Agent Server
 
 Generate a unique AI Idol based on your provided information.
 
-**API Request Example (Pseudo-code):**
+**API Request Example**
 ```
 user_input = {
     name: "Sarah",
@@ -59,9 +57,8 @@ response = {
 }
 ```
 
-**🤖 Behind the Scenes: Idol Creation Workflow (`llm/workflows/idol_creation_graph.py`)**
+**🤖 Idol Creation Workflow (`llm/workflows/idol_creation_graph.py`)**
 
-This feature is powered by a LangGraph `StateGraph`.
 *   **State (`State` TypedDict):** Manages `idol_info`, `bio`, and `profile_pic_base64`.
 *   **Nodes:**
     *   `generate_bio_node`: An LLM takes the `idol_info` and crafts a concise bio reflecting the idol's persona.
@@ -96,7 +93,6 @@ response = {
 
 **🤖 Behind the Scenes: Post Creation Workflow (`llm/workflows/post_creation_graph.py`)**
 
-This also uses a LangGraph `StateGraph`.
 *   **State (`State` TypedDict):** Tracks `messages`, `content` (original post), `image_prompt` (user's initial), `image_count`, `final_content`, `final_image_prompt`, `images`, `profile_pic_url` (for ReActor/Face Transfer), and crucially, `idol_persona` (fetched from Milvus, containing details like appearance, fashion style, personality).
 *   **Nodes:**
     *   `refine_content_node`: (Currently passes through original content) Intended to refine the post text to match the idol's voice.
@@ -135,9 +131,9 @@ response = {"detail": "Automatic posting settings updated!"}
     *   The initial `image_prompt` is also generated based on the idol's persona and the chosen content theme.
 *   The generated post and images are saved, and a callback is made to the User Server.
 
-## 🧠 Idol Brain (Orchestrator) - Powered by LangGraph
+## 🧠 Idol Brain (Orchestrator)
 
-The "Idol Brain" is the central intelligence of the Idolly Agent Server, orchestrating complex AI tasks using **LangGraph**. LangGraph allows us to define stateful, multi-step agentic workflows as graphs. The primary workflows are:
+The "Idol Brain" is the central intelligence of the Idolly Agent Server, orchestrating complex AI tasks.
 
 ### 1. Idol Creation Workflow (`llm/workflows/idol_creation_graph.py`)
    This graph manages the creation of a new AI idol.
@@ -189,7 +185,6 @@ The "Idol Brain" is the central intelligence of the Idolly Agent Server, orchest
 The Idolly Agent Server plans to expand by:
 
 - Automating video content creation.
-- Enhancing role-play with diverse scenarios, potentially using more complex LangGraph agents.
 - Adding personalized recommendation and analytics features.
 - MCP implementation
 
